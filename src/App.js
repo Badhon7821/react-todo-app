@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import AddTask from "./components/AddTask";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
-function App() {
+import TaskList from "./components/TaskList";
+
+const App = () => {
+  const [tasks, setTask] = useState([]);
+
+  useEffect(() => {
+    fetchingData();
+  }, []);
+
+  const fetchingData = async () => {
+    try {
+      const res = await fetch("https://olive-trail-skate.glitch.me/task");
+
+      if (!res.ok) throw new Error("something went wrong");
+      const data = await res.json();
+      setTask(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper bg-gradient-to-t from-gray-900 to-teal-800 min-h-screen text-xl text-gray-100 flex flex-col py-10">
+      <Header />
+      <AddTask />
+      <TaskList tasks={tasks} />
+      <Footer />
     </div>
   );
-}
+};
 
 export default App;
