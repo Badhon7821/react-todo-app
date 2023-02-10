@@ -15,7 +15,7 @@ const TaskItem = ({ task, handleEditSubmit, editedText, setEditedText }) => {
         </span>
 
         {task.isEditable && (
-          <form>
+          <form onSubmit={(e) => handleEditSubmit(e, task.id)}>
             <input
               required
               className="bg-transparent outline-none border-b-2 border-gray-600 pb-1 focus:border-teal-500"

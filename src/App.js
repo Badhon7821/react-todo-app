@@ -61,7 +61,25 @@ const App = () => {
   };
 
   const handleEditSubmit = (e, id) => {
-    console.log(id);
+    e.preventDefault();
+    setToggleMode(!toggleMode);
+
+    const editablePersistanceData = {
+      text: editedText,
+      id: id,
+    };
+
+    puttingData(id, editablePersistanceData);
+  };
+
+  const puttingData = async (id, persistanceData) => {
+    await fetch(`https://olive-trail-skate.glitch.me/task/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(persistanceData),
+    });
   };
 
   return (
