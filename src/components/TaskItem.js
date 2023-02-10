@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { FiEdit, FiTrash } from "react-icons/fi";
+import { deleteHandlerContext } from "../App";
 
 const TaskItem = ({ task }) => {
+  const deleteHandler = useContext(deleteHandlerContext);
+
   return (
     <div className="task-item flex justify-between items-center bg-gray-800 p-5 rounded hover:bg-gradient-to-r hover:from-teal-800 hover:to-gray-800 group ">
       <div className="task-item-left flex gap-3">
@@ -14,7 +18,7 @@ const TaskItem = ({ task }) => {
         <button>
           <FiEdit className="hover:text-teal-500 duration-300" />
         </button>
-        <button>
+        <button onClick={() => deleteHandler(task.id)}>
           <FiTrash className="hover:text-red-500 duration-300" />
         </button>
       </div>
