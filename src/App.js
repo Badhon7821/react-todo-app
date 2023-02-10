@@ -28,6 +28,8 @@ const App = () => {
 
   const deleteHandler = async (id) => {
     deleteData(id);
+
+    setTasks(tasks.filter((task) => id !== task.id));
   };
 
   const deleteData = async (id) => {
