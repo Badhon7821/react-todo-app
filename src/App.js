@@ -6,9 +6,12 @@ import Header from "./components/Header";
 import TaskList from "./components/TaskList";
 
 export const deleteHandlerContext = createContext();
+export const updateHandlerContext = createContext();
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
+  const [editedText, setEditedText] = useState("");
+  const [toggleMode, setToggleMode] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -44,13 +47,39 @@ const App = () => {
     });
   };
 
+  const updateHandler = (id) => {
+    const [editableText] = tasks.filter((task) => id === task.id);
+    editableText.isEditable = true;
+    setEditedText(editableText.text);
+
+    setTasks([...tasks]);
+    setToggleMode(false);
+
+    tasks
+      .filter((task) => id !== task.id)
+      .map((editableText) => (editableText.isEditable = false));
+  };
+
+  const handleEditSubmit = (e, id) => {
+    console.log(id);
+  };
+
   return (
     <div className="wrapper bg-gradient-to-t from-gray-900 to-teal-800 min-h-screen text-xl text-gray-100 flex flex-col py-10">
       <deleteHandlerContext.Provider value={deleteHandler}>
-        <Header />
-        <AddTask tasks={tasks} setTasks={setTasks} />
-        <TaskList tasks={tasks} loading={loading} error={error} />
-        <Footer />
+        <updateHandlerContext.Provider value={updateHandler}>
+          <Header />
+          <AddTask tasks={tasks} setTasks={setTasks} />
+          <TaskList
+            tasks={tasks}
+            loading={loading}
+            error={error}
+            handleEditSubmit={handleEditSubmit}
+            editedText={editedText}
+            setEditedText={setEditedText}
+          />
+          <Footer />
+        </updateHandlerContext.Provider>
       </deleteHandlerContext.Provider>
     </div>
   );
