@@ -70,6 +70,14 @@ const App = () => {
     };
 
     puttingData(id, editablePersistanceData);
+
+    //real time update
+    const [editableText] = tasks.filter((task) => id === task.id);
+    editableText.isEditable = false;
+
+    editableText.text = editablePersistanceData.text;
+
+    setTasks([...tasks]);
   };
 
   const puttingData = async (id, persistanceData) => {
